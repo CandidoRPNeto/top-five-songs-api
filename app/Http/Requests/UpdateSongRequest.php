@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestSongRequest extends FormRequest
+class UpdateSongRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,10 @@ class RequestSongRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'link' => ['required', 'url', 'max:255', 'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i'],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'link.required' => 'O link é necessario.',
-            'link.regex' => 'O link deve ser uma URL válida do YouTube.'
+            'title' => ['nullable', 'string', 'max:255'],
+            'views' => ['nullable', 'integer', 'min:0'],
+            'youtube_id' => ['nullable', 'string', 'max:50'],
+            'thumb' => ['nullable', 'url'],
         ];
     }
 }
