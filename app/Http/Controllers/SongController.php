@@ -19,7 +19,6 @@ class SongController extends Controller
 
     public function show(Songs $songs)
     {
-        //
     }
 
     public function update(Request $request, Songs $songs)
