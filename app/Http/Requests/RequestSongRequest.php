@@ -22,7 +22,7 @@ class RequestSongRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'link' => ['required', 'string', 'max:255', 'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i'],
+            'link' => ['required', 'url', 'max:255', 'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i'],
         ];
     }
 

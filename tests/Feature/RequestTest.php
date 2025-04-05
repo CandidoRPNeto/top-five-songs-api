@@ -23,6 +23,22 @@ class RequestTest extends TestCase
         $this->user = User::factory()->create(['email' => 'test@user.com']);
     }
 
+    public function test_non_login_request_actions(): void
+    {
+        $response = $this->postJson(route('request.send'),[]);
+        $response->assertStatus(401);
+        $response->assertJson(['message' => 'Unauthenticated.']);
+        $response = $this->getJson(route('request.index'),[]);
+        $response->assertStatus(401);
+        $response->assertJson(['message' => 'Unauthenticated.']);
+        $response = $this->patchJson(route('request.accept', ['request_id' => 'test']));
+        $response->assertStatus(401);
+        $response->assertJson(['message' => 'Unauthenticated.']);
+        $response = $this->patchJson(route('request.refuse', ['request_id' => 'test']));
+        $response->assertStatus(401);
+        $response->assertJson(['message' => 'Unauthenticated.']);
+    }
+
     public function test_get_list_of_request(): void
     {
         $response = $this->actingAs($this->admin)->get(route('request.index'));
