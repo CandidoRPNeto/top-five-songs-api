@@ -40,6 +40,9 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.required' => 'O nome é necessario.',
+            'email.required' => 'O email é necessario.',
+            'password.required' => 'A senha é necessaria.',
             'password.regex' => 'A senha deve conter letras, números e pelo menos um caractere especial.',
             'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
             'password.confirmed' => 'A confirmação da senha não corresponde.',

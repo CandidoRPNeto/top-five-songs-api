@@ -24,7 +24,7 @@ class AuthController extends Controller
             ]);
             return response()->json(['status' => 'success', 'message' => 'usuario criado com sucesso']);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()]);
+            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
         }
     }
 }
