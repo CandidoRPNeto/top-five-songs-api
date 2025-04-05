@@ -13,10 +13,10 @@ class RegisterTest extends TestCase
     public function test_register_good_path(): void
     {
         $data = [
-            "name" => "Test Good Path",
-            "email" => "test@good.com",
-            "password" => "Password@123",
-            "password_confirmation" => "Password@123"
+            'name' => 'Test Good Path',
+            'email' => 'test@good.com',
+            'password' => 'Password@123',
+            'password_confirmation' => 'Password@123'
         ];
         $response = $this->post(route('auth.register'),$data);
         $response->assertStatus(200);
@@ -29,16 +29,16 @@ class RegisterTest extends TestCase
         $response = $this->postJson(route('auth.register'), $data);
         $response->assertStatus(422);
         $response->assertJson([
-            "message" => "O nome é necessario. (and 2 more errors)",
+            'message' => 'O nome é necessario. (and 2 more errors)',
             'errors' => [
-                "name" => [
-                    "O nome é necessario."
+                'name' => [
+                    'O nome é necessario.'
                 ],
-                "email" => [
-                    "O email é necessario."
+                'email' => [
+                    'O email é necessario.'
                 ],
-                "password" => [
-                    "A senha é necessaria."
+                'password' => [
+                    'A senha é necessaria.'
                 ]
             ],
         ]);
@@ -47,28 +47,28 @@ class RegisterTest extends TestCase
     public function test_register_with_password_invalid(): void
     {
         $data = [
-            "name" => "Test Bad Path",
-            "email" => "test@bad.com",
-            "password" => "pa2s@",
-            "password_confirmation" => "pa2s@",
+            'name' => 'Test Bad Path',
+            'email' => 'test@bad.com',
+            'password' => 'pa2s@',
+            'password_confirmation' => 'pa2s@',
         ];
         $response = $this->postJson(route('auth.register'), $data);
         $response->assertStatus(422);
         $response->assertJson([
-            "message" => "A senha deve ter no mínimo 8 caracteres.",
+            'message' => 'A senha deve ter no mínimo 8 caracteres.',
         ]);
         $data['password'] = 'password';
         $data['password_confirmation'] = 'password';
         $response = $this->postJson(route('auth.register'), $data);
         $response->assertStatus(422);
         $response->assertJson([
-            "message" => "A senha deve conter letras, números e pelo menos um caractere especial.",
+            'message' => 'A senha deve conter letras, números e pelo menos um caractere especial.',
         ]);
         $data['password'] = 'Password@123';
         $response = $this->postJson(route('auth.register'), $data);
         $response->assertStatus(422);
         $response->assertJson([
-            "message" => "A confirmação da senha não corresponde.",
+            'message' => 'A confirmação da senha não corresponde.',
         ]);
     }
 
@@ -76,15 +76,15 @@ class RegisterTest extends TestCase
     {
         User::factory()->create(['email' => 'test@bad.com']);
         $data = [
-            "name" => "Test Bad Path",
-            "email" => "test@bad.com",
-            "password" => "Password@123",
-            "password_confirmation" => "Password@123"
+            'name' => 'Test Bad Path',
+            'email' => 'test@bad.com',
+            'password' => 'Password@123',
+            'password_confirmation' => 'Password@123'
         ];
         $response = $this->postJson(route('auth.register'), $data);
         $response->assertStatus(422);
         $response->assertJson([
-            "message" => "Este e-mail já está em uso.",
+            'message' => 'Este e-mail já está em uso.',
         ]);
     }
 }

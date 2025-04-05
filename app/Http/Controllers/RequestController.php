@@ -9,7 +9,6 @@ class RequestController extends Controller
 {
     public function index()
     {
-        //
     }
 
     public function send()
