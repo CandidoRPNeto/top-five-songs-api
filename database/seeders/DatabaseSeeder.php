@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Request;
 use App\Models\Songs;
 use App\Models\User;
+use App\UserRole;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@example.com',
+            'role' => UserRole::ADMIN->value
         ]);
 
        $songs = [
