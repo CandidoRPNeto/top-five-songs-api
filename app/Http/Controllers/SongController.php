@@ -51,7 +51,7 @@ class SongController extends Controller
     public function destroy($song_id)
     {
         try {
-            Songs::delete($song_id);
+            Songs::where('id', $song_id)->delete();
             return response()->json(['status' => 'success', 'message' => 'Musica apagada com sucesso']);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
