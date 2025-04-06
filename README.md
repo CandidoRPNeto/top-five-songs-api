@@ -15,6 +15,11 @@ colone o repositorio via Https ou SSH ( [siga esse tutorial](https://docs.github
 
 ## Com o repositório clonado execute os seguinte passos:
 
+### 0 - Dê a permissão necessaria para o entrypoint
+```bash
+chmod +x entrypoint.sh
+```
+
 ### 1 - Execute o docker do sistema com o banco de dados local
 ```bash
 ./vendor/bin/sail up -d
