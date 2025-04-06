@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\UserRole;
 
 class AuthController extends Controller
 {
@@ -14,10 +15,12 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['status' => 'fail', 'message' => 'email ou senha incorreto(s)'], 401);
         }
+        $user = auth()->user();
         return response()->json([
             'status' => 'success',
             'access_token' => $token,
-            'token_type' => 'bearer'
+            'token_type' => 'bearer',
+            'is_admin' => $user->role === UserRole::ADMIN->value
         ]);
     }
 
