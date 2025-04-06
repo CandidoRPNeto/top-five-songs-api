@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-#   app:
-#     build: .
-#     container_name: top_five
-#     depends_on:
-#       - db
-#     environment:
-#       - DATABASE_URL=postgres://postgres:postgres@db:5432/database
-#     ports:
-#       - "8000:8000"
-#     volumes:
-#       - .:/app
   db:
     image: postgres:15
     container_name: postgres_db
@@ -24,6 +13,34 @@ services:
       POSTGRES_DB: database
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_api
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: database
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    entrypoint: ["/var/www/entrypoint.sh"]
+    networks:
+      - app-network
 
 volumes:
   pgdata:
+
+networks:
+  app-network:
+    driver: bridge
