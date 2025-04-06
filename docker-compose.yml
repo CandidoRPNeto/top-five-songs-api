@@ -13,6 +13,8 @@ services:
       POSTGRES_DB: database
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   laravel:
     build:
@@ -33,6 +35,12 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
     entrypoint: ["/var/www/entrypoint.sh"]
+    networks:
+      - app-network
 
 volumes:
   pgdata:
+
+networks:
+  app-network:
+    driver: bridge
