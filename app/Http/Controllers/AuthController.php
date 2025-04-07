@@ -32,7 +32,13 @@ class AuthController extends Controller
                 'email' => $request->get('email'),
                 'password' => $request->get('password'),
             ]);
-            return response()->json(['status' => 'success', 'message' => 'usuario criado com sucesso']);
+            $token = auth()->attempt($request->only(['email', 'password']));
+            return response()->json([
+                'status' => 'success',
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'is_admin' => false
+            ]);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
         }

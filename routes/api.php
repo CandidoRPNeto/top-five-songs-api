@@ -26,4 +26,3 @@ Route::prefix('/songs')->group(function () {
         });
     });
 });
-
