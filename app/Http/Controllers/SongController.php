@@ -13,7 +13,7 @@ class SongController extends Controller
 
     public function index()
     {
-        $requests = Songs::paginate(6);
+        $requests = Songs::orderBy('views', 'desc')->paginate(5);
         return response()->json($requests);
     }
 

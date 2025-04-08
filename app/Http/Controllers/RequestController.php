@@ -14,7 +14,7 @@ class RequestController extends Controller
 
     public function index()
     {
-        $requests = Request::paginate(6);
+        $requests = Request::orderBy('created_at', 'asc')->paginate(5);
         return response()->json($requests);
     }
 
