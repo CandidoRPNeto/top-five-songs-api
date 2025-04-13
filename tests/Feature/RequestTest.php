@@ -75,10 +75,7 @@ class RequestTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('request.index'));
         $response->assertStatus(403);
-        $response->assertJson([
-            "status" => "fail",
-            "message" => "Acesso não autorizado. Apenas administradores podem acessar este recurso."
-        ]);
+        $response->assertJson([ "message" => "Acesso não autorizado. Apenas administradores podem acessar este recurso." ]);
     }
 
     public function test_send_request(): void
@@ -88,7 +85,7 @@ class RequestTest extends TestCase
             'link' => $link
         ]);
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success', 'message' => 'request enviada com sucesso']);
+        $response->assertJson(['message' => 'request enviada com sucesso']);
         $this->assertDatabaseHas('requests', [
             'link' => $link,
             'user_id' => $this->user->id
@@ -129,7 +126,7 @@ class RequestTest extends TestCase
         ]);
         $response = $this->actingAs($this->admin)->patchJson(route('request.refuse', $request->id),[]);
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success', 'message' => 'request recusada com sucesso']);
+        $response->assertJson(['message' => 'request recusada com sucesso']);
         $this->assertTrue(
             Request::withTrashed()
                 ->where('link', $link)
@@ -150,7 +147,7 @@ class RequestTest extends TestCase
         ]);
         $response = $this->actingAs($this->admin)->patchJson(route('request.accept', $request->id),[]);
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success', 'message' => 'request aprovada com sucesso']);
+        $response->assertJson(['message' => 'request aprovada com sucesso']);
         $this->assertTrue(
             Request::withTrashed()
                 ->where('link', $link)
@@ -175,10 +172,7 @@ class RequestTest extends TestCase
         ]);
         $response = $this->actingAs($this->user)->patchJson(route('request.refuse', $request->id),[]);
         $response->assertStatus(403);
-        $response->assertJson([
-            "status" => "fail",
-            "message" => "Acesso não autorizado. Apenas administradores podem acessar este recurso."
-        ]);
+        $response->assertJson([ "message" => "Acesso não autorizado. Apenas administradores podem acessar este recurso." ]);
     }
 
     public function test_non_adm_accept_request(): void
@@ -189,9 +183,6 @@ class RequestTest extends TestCase
         ]);
         $response = $this->actingAs($this->user)->patchJson(route('request.accept', $request->id),[]);
         $response->assertStatus(403);
-        $response->assertJson([
-            "status" => "fail",
-            "message" => "Acesso não autorizado. Apenas administradores podem acessar este recurso."
-        ]);
+        $response->assertJson([ "message" => "Acesso não autorizado. Apenas administradores podem acessar este recurso." ]);
     }
 }

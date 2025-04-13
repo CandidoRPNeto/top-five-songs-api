@@ -25,14 +25,11 @@ class LoginTest extends TestCase
         ];
         $response = $this->post(route('auth.login'),$data);
         $response->assertStatus(200);
-        $response->assertJson([
-            'status' => 'success',
-            'token_type' => 'bearer',
-        ]);
+        $response->assertJson([ 'token_type' => 'bearer', ]);
         $response->assertJsonStructure([
-            'status',
             'access_token',
             'token_type',
+            'is_admin',
         ]);
     }
 
@@ -44,10 +41,7 @@ class LoginTest extends TestCase
         ];
         $response = $this->post(route('auth.login'),$data);
         $response->assertStatus(401);
-        $response->assertJson([
-            'status' => 'fail',
-            'message' => 'email ou senha incorreto(s)'
-        ]);
+        $response->assertJson([ 'message' => 'email ou senha incorreto(s)' ]);
     }
 
     public function test_login_wrong_password_path(): void
@@ -58,10 +52,7 @@ class LoginTest extends TestCase
         ];
         $response = $this->post(route('auth.login'),$data);
         $response->assertStatus(401);
-        $response->assertJson([
-            'status' => 'fail',
-            'message' => 'email ou senha incorreto(s)'
-        ]);
+        $response->assertJson([ 'message' => 'email ou senha incorreto(s)' ]);
     }
 
 }

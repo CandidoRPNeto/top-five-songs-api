@@ -20,36 +20,24 @@ class RequestController extends Controller
 
     public function send(RequestSongRequest $request)
     {
-        try {
-            Request::create(['user_id' => Auth::id(), 'link' => $request->get('link')]);
-            return response()->json(['status' => 'success', 'message' => 'request enviada com sucesso']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        Request::create(['user_id' => Auth::id(), 'link' => $request->get('link')]);
+        return response()->json(['message' => 'request enviada com sucesso']);
     }
 
     public function acceptRequest($request_id)
     {
-        try {
-            DB::transaction(function () use ($request_id) {
-                $request = Request::where('id',$request_id)->first();
-                $request->update(['approved' => true, 'admin_id' => Auth::id()]);
-                $this->songService->createSong($request->link, $request->user_id);
-                $request->delete();
-            });
-            return response()->json(['status' => 'success', 'message' => 'request aprovada com sucesso']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        DB::transaction(function () use ($request_id) {
+            $request = Request::where('id',$request_id)->first();
+            $request->update(['approved' => true, 'admin_id' => Auth::id()]);
+            $this->songService->createSong($request->link, $request->user_id);
+            $request->delete();
+        });
+        return response()->json(['message' => 'request aprovada com sucesso']);
     }
 
     public function refuseRequest($request_id)
     {
-        try {
-            Request::where('id',$request_id)->update(['admin_id' => Auth::id(), 'deleted_at' => now()]);
-            return response()->json(['status' => 'success', 'message' => 'request recusada com sucesso']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        Request::where('id',$request_id)->update(['admin_id' => Auth::id(), 'deleted_at' => now()]);
+        return response()->json(['message' => 'request recusada com sucesso']);
     }
 }

@@ -78,7 +78,7 @@ class SongTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->deleteJson(route('songs.delete', ['song_id' => $this->song->id]));
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success', 'message' => 'Musica apagada com sucesso']);
+        $response->assertJson(['message' => 'Musica apagada com sucesso']);
         $this->assertSoftDeleted('songs', [
             'id' => $this->song->id
         ]);
@@ -88,7 +88,7 @@ class SongTest extends TestCase
     {
         $response = $this->actingAs($this->user)->deleteJson(route('songs.delete', ['song_id' => $this->song->id]));
         $response->assertStatus(403);
-        $response->assertJson(['status' => 'fail', 'message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
+        $response->assertJson(['message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
     }
 
     public function test_get_song(): void
@@ -96,7 +96,6 @@ class SongTest extends TestCase
         $response = $this->actingAs($this->admin)->getJson(route('songs.show', ['song_id' => $this->song->id]));
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'status',
             'song' => [
                 "id",
                 "user_id",
@@ -115,7 +114,7 @@ class SongTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('songs.show', ['song_id' => $this->song->id]));
         $response->assertStatus(403);
-        $response->assertJson(['status' => 'fail', 'message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
+        $response->assertJson(['message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
     }
 
     public function test_store_song(): void
@@ -150,7 +149,7 @@ class SongTest extends TestCase
     {
         $response = $this->actingAs($this->user)->postJson(route('songs.store'), []);
         $response->assertStatus(403);
-        $response->assertJson(['status' => 'fail', 'message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
+        $response->assertJson(['message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
     }
 
     public function test_update_song(): void
@@ -161,7 +160,7 @@ class SongTest extends TestCase
         ];
         $response = $this->actingAs($this->admin)->putJson(route('songs.update', ['song_id' => $this->song->id]), $data);
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success', 'message' => 'Musica atualizada com sucesso']);
+        $response->assertJson(['message' => 'Musica atualizada com sucesso']);
 
         $this->assertDatabaseHas('songs', array_merge($data, [
             'id' => $this->song->id
@@ -172,6 +171,6 @@ class SongTest extends TestCase
     {
         $response = $this->actingAs($this->user)->putJson(route('songs.update', ['song_id' => $this->song->id]), []);
         $response->assertStatus(403);
-        $response->assertJson(['status' => 'fail', 'message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
+        $response->assertJson(['message' => 'Acesso não autorizado. Apenas administradores podem acessar este recurso.']);
     }
 }

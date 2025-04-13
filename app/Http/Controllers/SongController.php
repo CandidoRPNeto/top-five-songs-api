@@ -19,42 +19,26 @@ class SongController extends Controller
 
     public function store(RequestSongRequest $request)
     {
-        try {
-            $this->songService->createSong($request->get('link'));
-            return response()->json(['status' => 'success', 'message' => 'Musica criada com sucesso']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        $this->songService->createSong($request->get('link'));
+        return response()->json(['message' => 'Musica criada com sucesso']);
     }
 
     public function show($song_id)
     {
-        try {
-            $song = Songs::findOrFail($song_id);
-            return response()->json(['status' => 'success', 'song' => $song]);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        $song = Songs::findOrFail($song_id);
+        return response()->json(['song' => $song]);
     }
 
     public function update(UpdateSongRequest $request, $song_id)
     {
-        try {
-            $data = $request->only(array_keys($request->rules()));
-            Songs::where('id', $song_id)->update($data);
-            return response()->json(['status' => 'success', 'message' => 'Musica atualizada com sucesso']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        $data = $request->only(array_keys($request->rules()));
+        Songs::where('id', $song_id)->update($data);
+        return response()->json(['message' => 'Musica atualizada com sucesso']);
     }
 
     public function destroy($song_id)
     {
-        try {
-            Songs::where('id', $song_id)->delete();
-            return response()->json(['status' => 'success', 'message' => 'Musica apagada com sucesso']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'fail', 'message' => $th->getMessage()],500);
-        }
+        Songs::where('id', $song_id)->delete();
+        return response()->json(['message' => 'Musica apagada com sucesso']);
     }
 }

@@ -20,7 +20,11 @@ class RegisterTest extends TestCase
         ];
         $response = $this->post(route('auth.register'),$data);
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success', 'message' => 'usuario criado com sucesso']);
+        $response->assertJsonStructure([
+            'access_token',
+            'token_type',
+            'is_admin',
+        ]);
     }
 
     public function test_register_with_none_information(): void
